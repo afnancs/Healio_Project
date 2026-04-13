@@ -1,0 +1,127 @@
+<style>
+    /* التعديلات الجديدة للمواعيد من غير ما نلمس الـ CSS الخارجي */
+    .slot-day, .slot-time {
+        border: 1px solid #e5e7eb;
+        border-radius: 50px;
+        padding: 10px 20px;
+        text-align: center;
+        cursor: pointer;
+        transition: 0.3s;
+        color: #4b5563;
+        font-size: 14px;
+        background: white;
+    }
+
+    .slot-day {
+        min-width: 60px;
+        padding: 15px 10px;
+    }
+
+    .slot-day span {
+        font-size: 11px;
+        font-weight: bold;
+    }
+
+    /* اللون التركواز لما نختار الموعد */
+    .slot-day.active, .slot-time.active {
+        background-color: #008080 !important;
+        color: white !important;
+        border-color: #008080 !important;
+    }
+
+    /* حركة خفيفة لما الماوس ييجي عليهم */
+    .slot-day:hover, .slot-time:hover {
+        border-color: #008080;
+    }
+</style>
+
+<main class="doc-details-page" style="padding: 40px 8%;">
+    <div class="doctor-info-header" style="display: flex; gap: 25px; border: 1px solid #e5e7eb; border-radius: 15px; overflow: hidden; padding: 25px;">
+        <div class="doc-main-img" style="background-color: #008080; width: 280px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+            <img src="" style="width: 100%;" id="main-doc-img">
+        </div>
+        
+        <div class="doc-main-text" style="flex: 1;">
+            <h1 style="font-size: 28px; display: flex; align-items: center; gap: 10px;" id="display-name"></h1>
+            <p style="color: #4b5563;" id="display-specialty"></p>
+            
+            <div style="margin-top: 20px;">
+                <h4 style="margin: 0; color: #374151;">About</h4>
+                <p style="color: #6b7280; font-size: 14px; line-height: 1.6; margin-top: 8px;" id="display-about"></p>
+            </div>
+
+            <p style="margin-top: 25px; font-weight: 600; color: #374151;" id="display-fee"></p>
+        </div>
+    </div>
+
+    <div class="booking-slots-container" style="margin-top: 40px;">
+        <h3 style="color: #4b5563; font-weight: 500;">Booking slots</h3>
+        
+        <div class="days-scroll" style="display: flex; gap: 15px; margin: 20px 0;">
+            <div class="slot-day active"><span>SUN</span><br>12</div>
+            <div class="slot-day"><span>MON</span><br>13</div>
+            <div class="slot-day"><span>TUE</span><br>14</div>
+            <div class="slot-day"><span>WED</span><br>15</div>
+        </div>
+        
+        <div class="times-grid" style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 30px;">
+            <div class="slot-time">08:00 am</div>
+            <div class="slot-time active">09:00 am</div>
+            <div class="slot-time">10:30 am</div>
+            <div class="slot-time">11:30 am</div>
+        </div>
+
+        <button class="book-btn-main" onclick="confirmBookingDetails()" style="background: #008080; color: white; border: none; padding: 15px 50px; border-radius: 50px; cursor: pointer; font-weight: 600; font-size: 16px; transition: 0.3s;">
+            Book an appointment
+        </button>
+    </div>
+
+    <div class="reviews-section" style="margin-top: 50px; border-top: 1px solid #eee; padding-top: 30px;">
+        <h3 style="color: #4b5563;">Patient Reviews</h3>
+        <p id="display-rating" style="color: #666; font-size: 16px; margin-top: 10px;"></p>
+    </div>
+</main>
+
+<script>
+window.onload = function() {
+    const selectedName = localStorage.getItem('docName');
+    
+    const doctorsData = {
+        'Dr. Richard James': { about: 'Dr. Richard focuses on preventive medicine...', fee: '$50', exp: '4 Years', rate: '⭐⭐⭐⭐⭐ 4.8' },
+        'Dr. Emily Larson': { about: 'Dr. Emily is an expert in women health...', fee: '$60', exp: '6 Years', rate: '⭐⭐⭐⭐ 4.5' },
+        'Dr. Sarah Mohamed': { about: 'Dr. Sarah specializes in advanced dermatology...', fee: '$45', exp: '3 Years', rate: '⭐⭐⭐⭐⭐ 4.9' },
+        'Dr. Christopher Lee': { about: 'Dr. Christopher is dedicated to pediatric excellence...', fee: '$55', exp: '5 Years', rate: '⭐⭐⭐⭐ 4.7' }
+    };
+
+    const doc = doctorsData[selectedName];
+
+    if (doc) {
+        document.getElementById('display-name').innerHTML = selectedName + ' <span style="color: #008080; font-size: 18px;">✔</span>';
+        document.getElementById('display-specialty').innerHTML = `MBBS - ${localStorage.getItem('docSpecialty')} <span style="border: 1px solid #ddd; padding: 2px 8px; border-radius: 10px; font-size: 12px; margin-left: 10px;">${doc.exp}</span>`;
+        document.getElementById('display-about').innerText = doc.about;
+        document.getElementById('display-fee').innerText = "Appointment fee: " + doc.fee;
+        document.getElementById('main-doc-img').src = localStorage.getItem('docImg');
+        document.getElementById('display-rating').innerText = doc.rate + " (120+ reviews)";
+    }
+};
+
+// كود اختيار المواعيد وتلوينها (شغال على الـ Internal CSS اللي فوق)
+document.querySelectorAll('.slot-day, .slot-time').forEach(item => {
+    item.addEventListener('click', function() {
+        this.parentElement.querySelectorAll('.active').forEach(el => el.classList.remove('active'));
+        this.classList.add('active');
+    });
+});
+
+function confirmBookingDetails() {
+    const activeDay = document.querySelector('.slot-day.active');
+    const selectedDay = activeDay.querySelector('span').innerText;
+    const selectedDate = activeDay.innerText.replace(selectedDay, '').trim();
+    const selectedTime = document.querySelector('.slot-time.active').innerText;
+    
+    localStorage.setItem('bookedDay', selectedDay + " " + selectedDate);
+    localStorage.setItem('bookedTime', selectedTime);
+    
+    window.location.href = 'booking appointment.html'; 
+}
+</script>

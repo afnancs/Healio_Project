@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healio</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+    /* ده هيجبر الكروت تيجوا جنب بعض بالعرض */
+    .doctors-grid {
+        display: grid !important;
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 20px !important;
+        width: 100% !important;
+        margin-top: 30px !important;
+    }
+
+    /* تنسيق الكارت عشان ميبقاش واخد عرض الصفحة كله */
+    .doctor-card {
+        display: block !important;
+        width: 100% !important;
+        text-decoration: none !important;
+        border: 1px solid #e5e7eb !important;
+        border-radius: 12px !important;
+        overflow: hidden !important;
+        background: white !important;
+    }
+
+    /* تعديل زرار Create Account للون التركواز والبيضاوي */
+    .create-account-btn {
+        background-color: #008080 !important;
+        color: white !important;
+        padding: 10px 25px !important;
+        border-radius: 50px !important;
+        text-decoration: none !important;
+        display: inline-block !important;
+        border: none !important;
+    }
+
+    /* عشان الصور متكبرش وتخرب الشكل */
+    .img-container img {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    /* 1. تعديل زرار Create Account (اللي فوق في الهيدر) */
+    .create-account-btn, [href="signup.html"], button:contains("Create account") {
+        background-color: #008080 !important; /* اللون التركواز */
+        color: white !important;
+        padding: 12px 30px !important;
+        border-radius: 50px !important; /* شكل بيضاوي */
+        text-decoration: none !important;
+        display: inline-block !important;
+        border: none !important;
+        font-family: sans-serif !important;
+        transition: 0.3s !important;
+    }
+
+    /* 2. تعديل زرار More (اللي تحت الدكاترة) */
+    .main-more-btn {
+        background-color: #20b2aa !important; /* تركواز */
+        color: white !important;
+        padding: 10px 45px !important;
+        border-radius: 50px !important; /* شكل بيضاوي */
+        text-decoration: none !important;
+        display: inline-block !important;
+        font-size: 16px !important;
+        transition: 0.3s !important;
+    }
+
+    .main-more-btn:hover, .create-account-btn:hover {
+        background-color: #006666 !important; /* درجة أغمق عند اللمس */
+        transform: translateY(-2px) !important;
+    }
+
+    /* كود إضافي للتأكد إن الدكاترة بالعرض */
+    .doctors-grid {
+        display: grid !important;
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 20px !important;
+        margin-bottom: 20px !important;
+    }
+    /* 1. تنسيق النصوص تحت الدكاترة */
+.info h3 {
+    color: #1f2937 !important; /* أسود غامق شيك */
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    margin-top: 10px !important;
+    margin-bottom: 4px !important;
+}
+
+.info p {
+    color: #4b5563 !important; /* رمادي متناسق */
+    font-size: 14px !important;
+    margin: 0 !important;
+}
+
+/* 2. تنسيق حالة Available */
+.status-text {
+    color: #059669 !important; /* أخضر طبيعي */
+    font-weight: 500 !important;
+}
+
+/* 3. زرار MORE (التعديل النهائي اللي هيجبره يتغير) */
+.main-more-btn, .more-btn {
+    background-color: #20b2aa !important; /* تركواز */
+    color: white !important;
+    padding: 12px 50px !important;
+    border-radius: 50px !important; /* بيضاوي */
+    text-decoration: none !important;
+    display: inline-block !important;
+    margin-top: 30px !important;
+    font-weight: 500 !important;
+    border: none !important;
+}
+    /* كل كود الـ CSS بتاع التوب دكاترة والزرار الأخضر يتحط هنا */
+    .top-doctors-section { background: white; padding: 50px; }
+    .doctor-card:hover { transform: translateY(-10px); border-color: #5f6fff; }
+    /* ... باقي الكود ... */
+
+    /* تنسيق سكشن التخصصات */
+.speciality-section {
+    text-align: center; /* بيجيب الكلام في النص */
+    padding: 60px 8%;
+}
+
+.speciality-list {
+    display: flex;
+    justify-content: center; /* بيوسط الأيقونات */
+    gap: 25px;
+    margin-top: 30px;
+    flex-wrap: wrap; /* عشان لو الشاشة صغيرة ينزلوا تحت بعض */
+}
+
+.speciality-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.speciality-item:hover {
+    transform: translateY(-5px); /* حركة شياكة لما الماوس ييجي عليها */
+}
+
+.speciality-img-circle {
+    width: 80px;
+    height: 80px;
+    background-color: #E2E5FF; /* لون هادي زي اللي عندك */
+    border-radius: 50%; /* شكل دائري */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.speciality-item p {
+    color: #4b5563;
+    font-size: 14px;
+    font-weight: 500;
+}
+</style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo-container" style="display: flex; align-items: center; gap: 15px; cursor: pointer; text-decoration: none;" onclick="window.location.href='index.html'">
+    <img src="assets/healio_logo.png" alt="Healio Logo" style="width: 120px; height: auto;">
+    
+    <h1 style="color: #20b2aa; font-size: 30px; font-weight: bold; margin: 0; line-height: 1;">Healio</h1>
+</div>
+
+        <ul class="nav-links">
+            <li><a href="index.html" class="active">HOME</a></li>
+            <li><a href="doctors.html">ALL DOCTORS</a></li>
+            <li><a href="about.html">ABOUT</a></li>
+            <li><a href="contact.html">CONTACT</a></li>
+        </ul>
+        <button type="button" class="btn-signup" onclick="window.location.href='create account.html'" 
+    style="background-color: #20b2aa; color: white; padding: 10px 25px; border: none; border-radius: 50px; cursor: pointer; font-weight: 500; transition: 0.3s;">
+    Create Account
+</button>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Book Appointment <br> With Trusted Doctors</h1>
+            <div class="hero-users">
+                <img src="assets/group_profiles.png" alt="users">
+                <p>Simply browse through our extensive list of trusted doctors, schedule your appointment hassle-free.</p>
+            </div>
+            <a href="#" class="book-btn">Book appointment &rarr;</a>
+        </div>
+        <div class="hero-image">
+            <img src="assets/header_img.png" alt="Doctors">
+        </div>
+    </header>
+
+    <section class="speciality-section">
+    <h1>Find by Speciality</h1>
+    <p>Simply browse through our extensive list of trusted doctors.</p>
+
+    <div class="speciality-list">
+        <a href="doctors.html" class="speciality-item">
+            <div class="speciality-img-circle">
+                <img src="assets/General_physician.svg" style="width: 40px;">
+            </div>
+            <p>General physician</p>
+        </a>
+
+        <a href="doctors.html" class="speciality-item">
+            <div class="speciality-img-circle">
+                <img src="assets/Gynecologist.svg" style="width: 40px;">
+            </div>
+            <p>Gynecologist</p>
+        </a>
+
+        <a href="doctors.html" class="speciality-item">
+            <div class="speciality-img-circle">
+                <img src="assets/Dermatologist.svg" style="width: 40px;">
+            </div>
+            <p>Dermatologist</p>
+        </a>
+
+        <a href="doctors.html" class="speciality-item">
+            <div class="speciality-img-circle">
+                <img src="assets/Pediatricians.svg" style="width: 40px;">
+            </div>
+            <p>Pediatricians</p>
+        </a>
+    </div>
+</section>
+
+    <section class="top-doctors" style="padding: 60px 8%; text-align: center;">
+    <h2 style="font-size: 32px; color: #1f2937; margin-bottom: 10px;">Top Doctors to Book</h2>
+    <p style="color: #6b7280; margin-bottom: 40px;">Simply browse through our extensive list of trusted doctors.</p>
+    
+    <div class="doctors-grid">
+        <a href="javascript:void(0)" onclick="bookDoctor('Dr. Richard James', 'General physician', 'assets/doc1.png')" class="doctor-card">
+            <div class="img-container">
+                <img src="assets/doc1.png" alt="Dr. Richard James">
+            </div>
+            <div class="info">
+                <div class="status">
+                    <span class="status-dot"></span> <span class="status-text">Available</span>
+                </div>
+                <h3>Dr. Richard James</h3>
+                <p>General physician</p>
+            </div>
+        </a>
+
+        <a href="javascript:void(0)" onclick="bookDoctor('Dr. Emily Larson', 'Gynecologist', 'assets/doc2.png')" class="doctor-card">
+            <div class="img-container">
+                <img src="assets/doc2.png" alt="Dr. Emily Larson">
+            </div>
+            <div class="info">
+                <div class="status">
+                    <span class="status-dot"></span> <span class="status-text">Available</span>
+                </div>
+                <h3>Dr. Emily Larson</h3>
+                <p>Gynecologist</p>
+            </div>
+        </a>
+
+        <a href="javascript:void(0)" onclick="bookDoctor('Dr. Sarah Mohamed', 'Dermatologist', 'assets/image (10).png')" class="doctor-card">
+            <div class="img-container">
+                <img src="assets/image (10).png" alt="Dr. Sarah Mohamed">
+            </div>
+            <div class="info">
+                <div class="status">
+                    <span class="status-dot"></span> <span class="status-text">Available</span>
+                </div>
+                <h3>Dr.Sarah Mohamed</h3>
+                <p>Dermatologist</p>
+            </div>
+        </a>
+
+        <a href="javascript:void(0)" onclick="bookDoctor('Dr. Christopher Lee', 'Pediatricians', 'assets/doc4.png')" class="doctor-card">
+            <div class="img-container">
+                <img src="assets/doc4.png" alt="Dr. Christopher Lee">
+            </div>
+            <div class="info">
+                <div class="status">
+                    <span class="status-dot"></span> <span class="status-text">Available</span>
+                </div>
+                <h3>Dr. Christopher Lee</h3>
+                <p>Pediatricians</p>
+            </div>
+        </a>
+    </div>
+
+    <div style="text-align: center;">
+    <a href="doctors.html" class="main-more-btn">more</a>
+</div>
+</section>
+    
+    
+    <script src="script.js"></script>
+</body>
+<footer style="text-align: center; padding: 40px; border-top: 1px solid #eee; margin-top: 50px; color: #6b7280;">
+    <p>&copy; 2026 Healio. All rights reserved.</p>
+</footer>
+
+</html>

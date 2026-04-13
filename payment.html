@@ -1,0 +1,18 @@
+<main style="text-align: center; padding: 50px;">
+    <h2 style="color: #008080;">Choose Payment Method</h2>
+    <div style="margin: 30px auto; max-width: 400px; display: flex; flex-direction: column; gap: 15px;">
+        <div style="border: 1px solid #ddd; padding: 20px; border-radius: 10px; cursor: pointer;" onclick="paySuccess()">
+            <img src="https://img.icons8.com/color/48/000000/visa.png" width="40"> Pay with Visa
+        </div>
+        <div style="border: 1px solid #ddd; padding: 20px; border-radius: 10px; cursor: pointer;" onclick="paySuccess()">
+            <img src="https://img.icons8.com/color/48/000000/paypal.png" width="40"> Pay with PayPal
+        </div>
+    </div>
+</main>
+
+<script>
+    function paySuccess() {
+        alert("Payment successful! Your appointment with " + localStorage.getItem('docName') + " is confirmed.");
+        window.location.href = 'index.html'; // يرجعه للهوم
+    }
+</script>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Doctors - Prescripto</title>
+    <style>
+        :root { --primary: #008080; }
+        body { font-family: sans-serif; margin: 0; background-color: #fff; }
+        
+        /* الهيدر والسايد بار */
+        .doctors-main-layout { display: flex; gap: 30px; padding: 20px 8%; }
+        .sidebar { width: 200px; display: flex; flex-direction: column; gap: 10px; }
+        .filter-btn { 
+            padding: 12px; border: 1px solid #EAEAEA; border-radius: 6px; 
+            cursor: pointer; transition: 0.3s; color: #4b5563; 
+        }
+        .filter-btn:hover, .filter-btn.active { 
+            background-color: #E2E5FF; color: var(--primary); border-color: var(--primary); 
+        }
+
+        /* شبكة الدكاترة */
+        #doctors-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
+            gap: 20px; width: 100%; 
+        }
+
+        /* تصميم الكارت اللي كان في الصورة */
+        .doc-item {
+            border: 1px solid #C9D8FF; border-radius: 12px;
+            overflow: hidden; cursor: pointer; transition: 0.4s;
+            text-decoration: none; color: inherit; background: #fff;
+        }
+        .doc-item:hover { transform: translateY(-8px); border-color: var(--primary); }
+        .img-wrapper { background-color: #EAEFFF; transition: 0.3s; }
+        .doc-item:hover .img-wrapper { background-color: var(--primary); }
+        .img-wrapper img { width: 100%; display: block; height: 200px; object-fit: cover; }
+        
+        .info { padding: 15px; text-align: left; }
+        .availability { color: #0FBF00; font-size: 12px; display: flex; align-items: center; gap: 5px; margin-bottom: 5px; }
+        .status-dot { height: 7px; width: 7px; background-color: #0FBF00; border-radius: 50%; }
+        .info h3 { font-size: 16px; margin: 5px 0; color: #1f2937; }
+        .info p { color: #4b5563; font-size: 13px; margin: 0; }
+    </style>
+</head>
+<body>
+
+    <div style="padding: 20px 8% 0 8%;">
+        <h2 style="font-weight: 400; color: #4b5563;">Browse through the doctors specialist.</h2>
+    </div>
+
+    <div class="doctors-main-layout">
+        <div class="sidebar">
+            <div onclick="filterDoctors('All')" class="filter-btn active">All Doctors</div>
+            <div onclick="filterDoctors('General physician')" class="filter-btn">General physician</div>
+            <div onclick="filterDoctors('Gynecologist')" class="filter-btn">Gynecologist</div>
+            <div onclick="filterDoctors('Dermatologist')" class="filter-btn">Dermatologist</div>
+            <div onclick="filterDoctors('Pediatricians')" class="filter-btn">Pediatricians</div>
+            <div onclick="filterDoctors('Neurology')" class="filter-btn">Neurology</div>
+            <div onclick="filterDoctors('Gastroenterologist')" class="filter-btn">Gastroenterologist</div>
+        </div>
+
+        <div id="doctors-grid">
+            </div>
+    </div>
+
+    <script>
+        const doctorsData = [
+            { name: "Dr. Richard James", spec: "General physician", img: "doc1.png" },
+            { name: "Dr. Asmaa Mansy", spec: "General physician", img: "image (11).png" },
+            { name: "Dr. Sophia Taylor ", spec: "General physician", img: "image (4).png" },
+            { name: "Dr. Emily Larson", spec: "Gynecologist", img: "doc2.png" },
+            { name: "Dr. Molly Wilson", spec: "Gynecologist", img: "doc11.png" },
+            { name: "Dr. Novak J.", spec: "Gynecologist", img: "image (5).png" },
+            { name: "Dr. Patrick Harris", spec: "Dermatologist", img: "doc10.png" },
+            { name: "Dr. Sarah Mohamed", spec: "Dermatologist", img: "image (10).png" },
+            { name: "Dr. Adam Ahmed", spec: "Dermatologist", img: "doc12.png" },
+            { name: "Dr. Christopher Lee", spec: "Pediatricians", img: "doc4.png" },
+            { name: "Dr. Anna Smith", spec: "Pediatricians", img: "doc13.png" },
+            { name: "Dr. Daniel Clark", spec: "Pediatricians", img: "doc14.png" },
+            { name: "Dr. Jennifer Garcia", spec: "Neurology", img: "doc5.png" },
+            { name: "Dr. Andrew Williams", spec: "Neurology", img: "doc6.png" },
+            { name: "Dr. Thomas Abbot", spec: "Neurology", img: "doc3.png" },
+            { name: "Dr. Christopher Kelly", spec: "Gastroenterologist", img: "doc7.png" },
+            { name: "Dr. Timothy White", spec: "Gastroenterologist", img: "doc8.png" },
+            { name: "Dr. Chloe Evans", spec: "Gastroenterologist", img: "doc9.png" },
+            { name: "Dr. Ryan Dixon", spec: "Cardiology", img: "doc10.png" }, // تكملة الـ 21
+            { name: "Dr. Olivia Brown", spec: "Gynecologist", img: "image (9).png" },
+            { name: "Dr. Maria Sharapova", spec: "General physician", img: "doc15.png" }
+        ];
+
+        function displayDoctors(filter = 'All') {
+            const grid = document.getElementById('doctors-grid');
+            grid.innerHTML = '';
+            doctorsData.forEach(doc => {
+                if (filter === 'All' || doc.spec === filter) {
+                    grid.innerHTML += `
+                        <div class="doc-item" onclick="bookDoctor('${doc.name}', '${doc.spec}', 'assets/${doc.img}')">
+                            <div class="img-wrapper"><img src="assets/${doc.img}" alt="${doc.name}"></div>
+                            <div class="info">
+                                <div class="availability"><span class="status-dot"></span>Available</div>
+                                <h3>${doc.name}</h3>
+                                <p>${doc.spec}</p>
+                            </div>
+                        </div>`;
+                }
+            });
+        }
+
+        function filterDoctors(category) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            displayDoctors(category);
+        }
+
+        function bookDoctor(name, spec, img) {
+            localStorage.setItem('docName', name);
+            localStorage.setItem('docSpecialty', spec);
+            localStorage.setItem('docImg', img);
+            window.location.href = 'doctor-details.html';
+        }
+
+        // تشغيل الصفحة لأول مرة
+        window.onload = () => displayDoctors();
+    </script>
+</body>
+</html>

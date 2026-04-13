@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>booking appointment</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body style="background-color: #f8f9fa; font-family: sans-serif;">
+
+    <div class="form-container" style="max-width: 500px; margin: 50px auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.05);">
+        <h2 style="color: #20b2aa; text-align: center;">Booking Summary</h2>
+        
+        <div style="background: #f0fdfa; padding: 15px; border-radius: 10px; margin: 20px 0; border-left: 5px solid #008080;">
+            <p><strong>Doctor:</strong> <span id="sum-doc"></span></p>
+            <p><strong>Date:</strong> <span id="sum-date"></span></p>
+            <p><strong>Time:</strong> <span id="sum-time"></span></p>
+        </div>
+
+        <div class="input-group" style="margin-bottom: 20px;">
+            <label>Patient Name:</label>
+            <input type="text" id="p-name" placeholder="Enter your full name" style="width: 100%; padding: 12px; margin-top: 8px; border: 1px solid #ddd; border-radius: 8px;">
+        </div>
+
+        <button onclick="goToPayment()" style="width: 100%; background: #008080; color: white; padding: 15px; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; font-weight: bold;">
+            Confirm & Go to Payment
+        </button>
+    </div>
+
+    <script>
+        // أول ما الصفحة تفتح تعرض بيانات الدكتور والميعاد اللي اخترناهم
+        window.onload = function() {
+            document.getElementById('sum-doc').innerText = localStorage.getItem('docName');
+            document.getElementById('sum-date').innerText = localStorage.getItem('bookedDay');
+            document.getElementById('sum-time').innerText = localStorage.getItem('bookedTime');
+        };
+
+        function goToPayment() {
+            const patient = document.getElementById('p-name').value;
+            if(patient == "") {
+                alert("Please enter your name");
+                return;
+            }
+            localStorage.setItem('patientName', patient);
+            window.location.href = 'payment.html'; // يروح لصفحة الدفع
+        }
+    </script>
+</body>
+</html>
