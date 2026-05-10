@@ -1,0 +1,17 @@
+{
+  "name": "healio-local-backend",
+  "version": "1.0.0",
+  "description": "Simple local backend for Healio project",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^4.21.2",
+    "mongodb": "^7.2.0",
+    "mongoose": "^9.5.0"
+  }
+}

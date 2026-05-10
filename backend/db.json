@@ -1,0 +1,62 @@
+{
+  "users": [
+    {
+      "id": "1776899170524",
+      "fullName": "Test User",
+      "email": "test@example.com",
+      "password": "123456",
+      "createdAt": "2026-04-22T23:06:10.524Z"
+    },
+    {
+      "id": "1776899483575",
+      "fullName": "hussien",
+      "email": "hussienmohamad2026@gmail.com",
+      "password": "12345678",
+      "createdAt": "2026-04-22T23:11:23.575Z"
+    }
+  ],
+  "bookings": [
+    {
+      "id": "bk_1776899170562",
+      "patientName": "Test User",
+      "doctorName": "Dr. Richard James",
+      "doctorSpecialty": "General physician",
+      "day": "SUN 12",
+      "time": "09:00 am",
+      "status": "confirmed",
+      "createdAt": "2026-04-22T23:06:10.562Z"
+    },
+    {
+      "id": "bk_1776899546621",
+      "patientName": "sehssss",
+      "doctorName": "Dr. Richard James",
+      "doctorSpecialty": "General physician",
+      "day": "SUN 12",
+      "time": "09:00 am",
+      "status": "confirmed",
+      "createdAt": "2026-04-22T23:12:26.622Z"
+    }
+  ],
+  "payments": [
+    {
+      "id": "pay_1776899170562",
+      "bookingId": "bk_1776899170562",
+      "patientName": "Test User",
+      "doctorName": "Dr. Richard James",
+      "method": "Visa",
+      "amount": "$50",
+      "status": "paid",
+      "createdAt": "2026-04-22T23:06:10.562Z"
+    },
+    {
+      "id": "pay_1776899546622",
+      "bookingId": "bk_1776899546621",
+      "patientName": "sehssss",
+      "doctorName": "Dr. Richard James",
+      "method": "Visa",
+      "amount": "$50",
+      "status": "paid",
+      "createdAt": "2026-04-22T23:12:26.622Z"
+    }
+  ]
+}

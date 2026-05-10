@@ -1,0 +1,517 @@
+:root {
+    --primary-color: #48a9a6; 
+    --secondary-color: #77cbb9;
+    --text-dark: #334756;
+}
+
+body {
+    margin: 0;
+    font-family: sans-serif;
+    color: var(--text-dark);
+}
+
+/* التنسيق اللي هيخلي اللينكات جنب بعض بدل ما هي تحت بعض */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 8%;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
+/* الزرار */
+.create-acc {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 10px 25px;
+    border-radius: 50px;
+    border: none;
+    cursor: pointer;
+}
+
+/* الجزء الأزرق/الأخضر الكبير (Hero Section) */
+.hero {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    margin: 20px 8%;
+    border-radius: 20px;
+    display: flex;
+    padding: 60px;
+    color: white;
+}
+
+.hero-content {
+    flex: 1;
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.book-btn {
+    display: inline-block;
+    background: white;
+    color: var(--primary-color);
+    padding: 12px 30px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 20px;
+
+/* تنسيق صفحة الأطباء */
+.doctors-page {
+    padding: 40px 8%;
+}
+
+.filter-title {
+    color: #4b5563;
+    margin-bottom: 25px;
+}
+
+./* 1. الحاوية الكبيرة اللي شايلا الـ Sidebar والـ Grid */
+.doctors-container {
+    display: flex;             /* بيخلي الـ Sidebar والدكاترة يقفوا جنب بعض */
+    gap: 40px;                 /* مسافة واسعة ومريحة بين القائمة والدكاترة */
+    align-items: flex-start;   /* بيخلي القائمة تبدأ من فوق خالص */
+    margin-top: 30px;
+}
+
+/* تنسيق القائمة الجانبية */
+.specialization-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 200px;
+}
+
+.spec-btn {
+    padding: 10px 15px;
+    border: 1px solid #e5e7eb;
+    background: white;
+    border-radius: 4px;
+    text-align: left;
+    cursor: pointer;
+    color: #4b5563;
+    transition: 0.3s;
+}
+
+.spec-btn:hover, .spec-btn.active {
+    background-color: #e2f5f1; /* لون فاتح جداً من الـ Teal */
+    border-color: var(--primary-color);
+}
+
+/* تنسيق كروت الأطباء */
+/* 2. تنسيق شبكة الدكاترة (الجزء اللي على اليمين) */
+.doctors-grid {
+    flex: 1;                   /* بيقول لشبكة الدكاترة: خدي كل المساحة الباقية في الصفحة */
+    display: grid;             /* حولي الجزء ده لشبكة */
+    /* السطر اللي جاي بيخلي الدكاترة يترصوا جنب بعض تلقائياً (4 أو 3 حسب المساحة) */
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
+    gap: 20px;
+}
+
+/* عشان لما تصغري الشاشة الموبايل ميبقوش 4 وشكلهم يبوظ */
+@media (max-width: 1024px) {
+    .doctors-grid {
+        grid-template-columns: repeat(3, 1fr); /* 3 في الشاشات المتوسطة */
+    }
+}
+
+@media (max-width: 768px) {
+    .doctors-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 في التابلت */
+    }
+}
+
+@media (max-width: 480px) {
+    .doctors-grid {
+        grid-template-columns: 1fr; /* 1 في الموبايل */
+    }
+}
+
+.doctor-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.4s ease;
+}
+
+.doctor-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--primary-color);
+    box-shadow: 0 10px 20px rgba(72, 169, 166, 0.1);
+}
+
+.img-container {
+    background-color: #eaefff; /* تقدري تغيريه لـ var(--bg-light) لو عايزه أخضر فاتح */
+    width: 100%;
+}
+
+.img-container img {
+    width: 100%;
+    display: block;
+}
+
+.doctor-card .info {
+    padding: 15px;
+}
+
+.status-dot {
+    height: 8px;
+    width: 8px;
+    background-color: #10b981;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.status-text {
+    color: #10b981;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.doctor-card h3 {
+    margin: 10px 0 5px;
+    font-size: 17px;
+}
+
+.doctor-card p {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+/* زرار more في الصفحة الرئيسية */
+.more-btn {
+    background-color: #EAEFFF; /* لون أزرق هادي جداً مريح للعين */
+    color: #4B5563;
+    padding: 12px 50px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.more-btn:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* تعديل خلفية كادر الصورة لتكون مريحة */
+.img-container {
+    background-color: #EAEFFF; /* نفس الدرجة الهادية اللي في الصور */
+    transition: 0.3s;
+}
+
+.doctor-card:hover .img-container {
+    background-color: var(--primary-color); /* بيقلب للون الـ Theme عند الوقوف عليه */
+}
+
+.slot-day {
+    min-width: 60px;
+    height: 80px;
+    border: 1px solid #ddd;
+    border-radius: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.3s;
+    background: white;
+}
+
+.slot-day.active {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.slot-time {
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    border-radius: 30px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.slot-time.active {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.book-btn-main {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 15px 50px;
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* ده الكود اللي بيخلي الفورم شكلها شيك وفي نص الشاشة */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f2f5;
+}
+
+.login-container {
+    background: #ffffff;
+    max-width: 400px;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    box-sizing: border-box; /* ده اللي بيمنع العناصر تخرج بره المربع */
+}
+
+.signup-btn {
+    width: 100%;
+    background-color: #5fcf80;
+    color: white;
+    cursor: pointer;
+}
+
+.create-btn {
+    background-color: #2EC4B6;
+    color: white;
+    padding: 10px 22px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.create-btn:hover {
+    background-color: #25a99d;
+}
+
+.doctors-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important; /* بيخلي 4 كروت في الصف الواحد */
+    gap: 20px;
+}
+
+/* تنسيق شبكة الدكاترة */
+.doctors-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important; /* 4 أعمدة متساوية */
+    gap: 20px;
+    width: 100%;
+}
+
+/* تنسيق الكارت نفسه */
+.doctor-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.4s ease;
+    background: white;
+}
+
+.doctor-card:hover {
+    transform: translateY(-10px); /* يترفع لفوق لما تلمسيه */
+    border-color: #008080; /* اللون التركواز بتاعنا */
+}
+
+/* تنسيق صورة الدكتور */
+.img-container {
+    background-color: #eaefff; /* لون خلفية خفيف تحت الصورة */
+    width: 100%;
+}
+
+.img-container img {
+    width: 100%;
+    display: block;
+}
+
+/* تنسيق النصوص داخل الكارد */
+.info {
+    padding: 15px;
+    text-align: left;
+}
+
+.status {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: #10b981;
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+
+.status-dot {
+    height: 8px;
+    width: 8px;
+    background-color: #10b981;
+    border-radius: 50%;
+}
+
+.info h3 {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.info p {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+/* زرار More البيضاوي */
+.more-btn {
+    background-color: #EAEFFF;
+    color: #4b5563;
+    padding: 12px 50px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+.more-btn:hover {
+    background-color: #008080;
+    color: white;
+}
+
+/* عشان لما الشاشة تصغر (موبايل) ييجوا تحت بعض */
+@media (max-width: 900px) {
+    .doctors-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+/* تنسيق القسم الرئيسي */
+.top-doctors-section {
+    padding: 60px 10%;
+    text-align: center;
+    background-color: #ffffff;
+}
+
+.section-header h1 {
+    font-size: 32px;
+    color: #1f2937;
+    margin-bottom: 10px;
+}
+
+.section-header p {
+    color: #4b5563;
+    margin-bottom: 40px;
+}
+
+/* توزيع الكروت */
+.doctors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+/* تصميم الكارت (Perfectionism) */
+.doctor-card {
+    border: 1px solid #C9D8FF;
+    border-radius: 15px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    background: white;
+}
+
+/* حركة الـ Hover اللي طلبتيها */
+.doctor-card:hover {
+    transform: translateY(-10px);
+    border-color: #5f6fff;
+    box-shadow: 0 10px 20px rgba(95, 111, 255, 0.15);
+}
+
+/* خلفية الصورة الزرقاء الهادية */
+.image-wrapper {
+    background-color: #EAEFFF;
+    transition: 0.3s;
+}
+
+.doctor-card:hover .image-wrapper {
+    background-color: #5f6fff; /* بتغمق سنة لما تقربي */
+}
+
+.image-wrapper img {
+    width: 100%;
+    display: block;
+}
+
+/* معلومات الدكتور */
+.card-content {
+    padding: 20px;
+    text-align: left;
+}
+
+.availability {
+    color: #0FBF00;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 8px;
+}
+
+.status-dot {
+    height: 8px;
+    width: 8px;
+    background-color: #0FBF00;
+    border-radius: 50%;
+}
+
+.card-content h3 {
+    font-size: 19px;
+    color: #1f2937;
+    margin-bottom: 5px;
+}
+
+.card-content p {
+    color: #4b5563;
+    font-size: 14px;
+}
+
+/* زرار More الشيك */
+.more-btn {
+    background-color: #EAEFFF;
+    color: #4B5563;
+    padding: 12px 60px;
+    border: none;
+    border-radius: 50px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.more-btn:hover {
+    background-color: #5f6fff;
+    color: white;
+}
+
+}
