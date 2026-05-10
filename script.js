@@ -88,3 +88,8 @@ document.getElementById('open-map').addEventListener('click', function() {
 });
 
 }
+if (userRole === 'admin') {
+    window.location.href = 'admin.html';
+} else {
+    window.location.href = 'index.html';
+}
