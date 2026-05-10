@@ -75,4 +75,16 @@ function bookDoctor(name, specialty, img) {
     window.location.href = 'doctor-details.html';
 }
 
+// هنفترض إن دي بيانات الدكتور اللي جاية من الداتابيز
+const doctorLat = 30.0444; // مثال لإحداثيات القاهرة
+const doctorLng = 31.2357;
+
+document.getElementById('open-map').addEventListener('click', function() {
+    // لينك جوجل ماب العالمي باستخدام الإحداثيات
+    const mapUrl = `https://www.google.com/maps/search/?api=1&query=${doctorLat},${doctorLng}`;
+    
+    // فتح اللينك في صفحة جديدة
+    window.open(mapUrl, '_blank');
+});
+
 }

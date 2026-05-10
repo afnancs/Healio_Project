@@ -80,7 +80,7 @@ body {
 }
 
 ./* 1. الحاوية الكبيرة اللي شايلا الـ Sidebar والـ Grid */
-.doctors-container {
+.doctors-container{
     display: flex;             /* بيخلي الـ Sidebar والدكاترة يقفوا جنب بعض */
     gap: 40px;                 /* مسافة واسعة ومريحة بين القائمة والدكاترة */
     align-items: flex-start;   /* بيخلي القائمة تبدأ من فوق خالص */
@@ -512,6 +512,87 @@ body {
 .more-btn:hover {
     background-color: #5f6fff;
     color: white;
+}
+
+/* --- 1. تنسيق زرار اللوكيشن في صفحة الـ Sign Up --- */
+.form-group .location-wrapper {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+#location-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    white-space: nowrap;
+}
+
+#location-btn:hover {
+    background-color: #0056b3;
+}
+
+/* --- 2. تنسيق تاغ المسافة في كارت الدكتور (All Doctors) --- */
+.distance-tag {
+    background-color: #eef6ff; /* أزرق فاتح جداً */
+    color: #007bff;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin: 8px 0;
+    border: 1px solid #d0e5ff;
+}
+
+.distance-tag i {
+    font-size: 12px;
+}
+
+/* --- 3. تنسيق زرار جوجل ماب في (Doctor Details) --- */
+.map-container {
+    margin-top: 20px;
+}
+
+.google-maps-btn {
+    background-color: white;
+    color: #4285F4;
+    border: 2px solid #4285F4;
+    padding: 12px 25px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.google-maps-btn:hover {
+    background-color: #4285F4;
+    color: white;
+    transform: translateY(-3px); /* حركة خفيفة لفوق */
+    box-shadow: 0 5px 15px rgba(66, 133, 244, 0.3);
+}
+
+.google-maps-btn i {
+    font-size: 1.3rem;
+}
+
+/* عشان يكون الـ Input بتاع الموقع شكله أنيق وغير قابل للتعديل اليدوي */
+#location-input {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    cursor: not-allowed;
+    flex-grow: 1;
 }
 
 }

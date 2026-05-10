@@ -98,6 +98,47 @@
             text-decoration: none;
             font-weight: bold;
         }
+
+        .location-container {
+    width: 100%;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.location-label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.location-flex-row {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+}
+
+#location-input {
+    flex: 1; /* يخلي المربع ياخد المساحة المتاحة */
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+#location-btn {
+    padding: 10px 15px;
+    background-color: #20b2aa;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    white-space: nowrap; }
+#location-btn:hover {
+    background-color: #15817c;
+}
+
+
     </style>
 </head>
 <body>
@@ -121,9 +162,22 @@
             <input type="password" id="userPass" placeholder="Password">
         </div>
 
+        <div class="form-group password-field"> 
+    </div>
+
+<div class="location-container">
+    <label class="location-label">Your Location (to find nearest doctors)</label>
+    <div class="location-flex-row">
+        <input type="text" id="location-input" placeholder="0.0000, 0.0000" readonly>
+        <button type="button" onclick="getUserLocation()" id="location-btn">
+            <i class="fas fa-map-marker-alt"></i> Get My Location
+        </button>
+    </div>
+</div>
         <button type="button" class="signup-btn" onclick="saveAccount()">Create Account</button>
         
         <div class="footer-text">
+
             Already have an account? <a href="#">Login here</a>
         </div>
     </div>
