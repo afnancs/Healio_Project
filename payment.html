@@ -3,106 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment</title>
+    <title>Secure Payment - Healio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        body { background-color: #f4f7f6; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; }
+        .payment-container { display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        
+        .payment-card { 
+            background: white; padding: 30px; border-radius: 15px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 450px;
+        }
+
+        .payment-card h2 { color: #008080; margin-bottom: 25px; text-align: center; font-size: 24px; }
+
+        /* تنسيق اختيار طريقة الدفع */
+        .method-selector { display: flex; gap: 10px; margin-bottom: 25px; }
+        .method-option { 
+            flex: 1; border: 2px solid #eee; padding: 10px; border-radius: 10px; 
+            text-align: center; cursor: pointer; transition: 0.3s;
+        }
+        .method-option img { width: 40px; display: block; margin: 0 auto 5px; }
+        .method-option.active { border-color: #008080; background-color: #f0fdfd; }
+
+        /* تنسيق إدخال المبلغ */
+        .amount-entry { margin-bottom: 20px; text-align: left; }
+        .amount-entry label { display: block; font-size: 14px; font-weight: 600; color: #444; margin-bottom: 8px; }
+        .amount-input-wrapper { display: flex; align-items: center; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; }
+        #user-amount { flex-grow: 1; border: none; padding: 12px; font-size: 16px; outline: none; }
+        .currency-tag { background: #f8faff; padding: 12px 15px; border-left: 1px solid #ddd; color: #008080; font-weight: bold; }
+
+        /* تنسيق خانات الكارت */
+        .input-group { margin-bottom: 15px; text-align: left; }
+        .input-group label { display: block; font-size: 13px; margin-bottom: 5px; color: #666; }
+        .input-group input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; outline: none; }
+        .input-group input:focus { border-color: #008080; }
+        .flex-inputs { display: flex; gap: 15px; }
+
+        .pay-btn { 
+            width: 100%; background: #28a745; color: white; border: none; 
+            padding: 15px; border-radius: 8px; font-size: 18px; font-weight: bold; 
+            cursor: pointer; transition: 0.3s; margin-top: 10px;
+        }
+        .pay-btn:hover { background: #218838; transform: translateY(-2px); }
+    </style>
 </head>
-<body style="background:#f8f9fa; font-family:sans-serif; margin:0;">
-    <main style="text-align: center; padding: 50px; max-width: 650px; margin: 0 auto;">
-        <h2 style="color: #008080;">Choose Payment Method</h2>
-        <div style="background: white; border-radius: 14px; box-shadow: 0 5px 20px rgba(0,0,0,0.05); padding: 20px; margin: 25px 0; text-align:left;">
-            <p><strong>Patient:</strong> <span id="patient-name"></span></p>
-            <p><strong>Doctor:</strong> <span id="doctor-name"></span></p>
-            <p><strong>Date:</strong> <span id="booking-day"></span></p>
-            <p><strong>Time:</strong> <span id="booking-time"></span></p>
+<body>
+
+<div class="payment-container">
+    <div class="payment-card">
+        <h2><i class="fas fa-lock"></i> Secure Payment</h2>
+
+        <label style="font-size: 14px; font-weight: 600; color: #444;">Choose Payment Method:</label>
+        <div class="method-selector">
+            <div class="method-option active" onclick="selectMethod(this, 'Visa')">
+                <img src="https://img.icons8.com/color/48/000000/visa.png" alt="Visa">
+                <span>Visa</span>
+            </div>
+            <div class="method-option" onclick="selectMethod(this, 'PayPal')">
+                <img src="https://img.icons8.com/color/48/000000/paypal.png" alt="PayPal">
+                <span>PayPal</span>
+            </div>
         </div>
 
-        <div style="margin: 30px auto; max-width: 400px; display: flex; flex-direction: column; gap: 15px;">
-            <div style="border: 1px solid #ddd; background:white; padding: 20px; border-radius: 10px; cursor: pointer;" onclick="paySuccess('Visa')">
-                <img src="https://img.icons8.com/color/48/000000/visa.png" width="40" alt="Visa"> Pay with Visa
-            </div>
-            <div style="border: 1px solid #ddd; background:white; padding: 20px; border-radius: 10px; cursor: pointer;" onclick="paySuccess('PayPal')">
-                <img src="https://img.icons8.com/color/48/000000/paypal.png" width="40" alt="PayPal"> Pay with PayPal
+        <div class="amount-entry">
+            <label for="user-amount">Amount to Pay (EGP):</label>
+            <div class="amount-input-wrapper">
+                <input type="number" id="user-amount" placeholder="Enter amount" min="1">
+                <span class="currency-tag">EGP</span>
             </div>
         </div>
-    </main>
 
-    <script>
-        function getPendingBooking() {
-            try {
-                return JSON.parse(localStorage.getItem('pendingBooking')) || {};
-            } catch (e) {
-                return {};
-            }
+        <form id="payment-form" onsubmit="handlePayment(event)">
+            <div class="input-group">
+                <label>Cardholder Name</label>
+                <input type="text" placeholder="Afnan Ahmed" required>
+            </div>
+            
+            <div class="input-group">
+                <label>Card Number</label>
+                <input type="text" placeholder="xxxx xxxx xxxx xxxx" maxlength="16" required>
+            </div>
+            
+            <div class="flex-inputs">
+                <div class="input-group">
+                    <label>Expiry Date</label>
+                    <input type="text" placeholder="MM/YY" maxlength="5" required>
+                </div>
+                <div class="input-group">
+                    <label>CVV</label>
+                    <input type="password" placeholder="***" maxlength="3" required>
+                </div>
+            </div>
+            
+            <button type="submit" class="pay-btn">Confirm & Pay</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    let selectedPaymentMethod = 'Visa';
+
+    // اختيار طريقة الدفع
+    function selectMethod(element, method) {
+
+        document.querySelectorAll('.method-option')
+            .forEach(opt => opt.classList.remove('active'));
+
+        element.classList.add('active');
+
+        selectedPaymentMethod = method;
+    }
+
+    // تنفيذ الدفع
+    async function handlePayment(event) {
+
+        event.preventDefault();
+
+        const amount = document.getElementById('user-amount').value;
+
+        const docName =
+            localStorage.getItem('docName') || "the doctor";
+
+        const cardholderName =
+            document.querySelectorAll('input')[1].value;
+
+        const cardNumber =
+            document.querySelectorAll('input')[2].value;
+
+        const expiryDate =
+            document.querySelectorAll('input')[3].value;
+
+        if (!amount || amount <= 0) {
+
+            alert("Please enter a valid amount.");
+
+            return;
         }
 
-        window.onload = function () {
-            const booking = getPendingBooking();
-            document.getElementById('patient-name').innerText =
-                booking.patientName || localStorage.getItem('patientName') || '';
+        try {
 
-            document.getElementById('doctor-name').innerText =
-                booking.doctorName || localStorage.getItem('docName') || '';
-
-            document.getElementById('booking-day').innerText =
-                booking.date || localStorage.getItem('bookedDay') || '';
-
-            document.getElementById('booking-time').innerText =
-                booking.time || localStorage.getItem('bookedTime') || '';
-        };
-
-        async function paySuccess(method) {
-            const booking = getPendingBooking();
-
-            const bookingPayload = {
-                patientName: booking.patientName || localStorage.getItem('patientName') || '',
-                doctorName: booking.doctorName || localStorage.getItem('docName') || '',
-                date: booking.date || localStorage.getItem('bookedDay') || '',
-                time: booking.time || localStorage.getItem('bookedTime') || '',
-                paymentMethod: method
-            };
-
-            const paymentPayload = {
-                patientName: bookingPayload.patientName,
-                doctorName: bookingPayload.doctorName,
-                amount: 50,
-                method: method,
-                status: 'paid'
-            };
-
-            if (!bookingPayload.patientName || !bookingPayload.doctorName || !bookingPayload.date || !bookingPayload.time) {
-                alert('Missing booking details. Please book again.');
-                return;
-            }
-
-            try {
-                const bookingResponse = await fetch('/api/bookings', {
+            const response = await fetch(
+                'http://localhost:4000/api/payments',
+                {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(bookingPayload)
-                });
 
-                const bookingResult = await bookingResponse.json();
-                if (!bookingResponse.ok) {
-                    throw new Error(bookingResult.message || 'Booking failed');
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+
+                    body: JSON.stringify({
+
+                        cardholderName,
+
+                        doctorName: docName,
+
+                        amount,
+
+                        paymentMethod: selectedPaymentMethod,
+
+                        cardNumber,
+
+                        expiryDate
+                    })
                 }
+            );
 
-                const paymentResponse = await fetch('/api/payments', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(paymentPayload)
-                });
+            const data = await response.json();
 
-                const paymentResult = await paymentResponse.json();
-                if (!paymentResponse.ok) {
-                    throw new Error(paymentResult.message || 'Payment failed');
-                }
+            if (response.ok) {
 
-                localStorage.removeItem('pendingBooking');
-                alert('Booking and payment saved successfully ✅');
+                alert(
+                    `Payment successful via ${selectedPaymentMethod}!`
+                );
+
                 window.location.href = 'index.html';
-            } catch (error) {
-                alert(error.message || 'Something went wrong during payment');
+
+            } else {
+
+                alert(data.message || "Payment failed");
             }
+
+        } catch (error) {
+
+            console.log(error);
+
+            alert("Server error");
         }
-    </script>
+    }
+</script>
+
 </body>
 </html>
