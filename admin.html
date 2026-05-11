@@ -117,6 +117,19 @@
     </div>
 
     <script>
+        const role = localStorage.getItem("role");
+
+        if (role !== "admin") {
+            alert("Access denied - Admins only");
+            window.location.href = "index.html";
+        }
+    </script>
+    <script>
+        
+        if (localStorage.getItem("role") !== "admin") {
+            alert("Access denied");
+            window.location.href = "index.html";
+        }
         function approve(btn) {
             const row = btn.parentElement.parentElement;
             const statusCell = row.querySelector('.status');
@@ -132,5 +145,69 @@
             }
         }
     </script>
+
+    <script>
+        async function loadStats() {
+
+            const res = await fetch("http://localhost:4000/api/admin/stats");
+            const data = await res.json();
+
+            document.querySelectorAll(".stat-card p")[0].innerText = data.bookings;
+            document.querySelectorAll(".stat-card p")[1].innerText = data.users;
+        }
+        loadStats();
+
+
+        async function loadAppointments() {
+
+            const res = await fetch("http://localhost:4000/api/admin/appointments");
+            const data = await res.json();
+
+            const tbody = document.getElementById("admin-table-body");
+            tbody.innerHTML = "";
+
+            data.forEach(b => {
+
+                tbody.innerHTML += `
+                <tr>
+                    <td>${b.patientName}</td>
+                    <td>${b.doctorName}</td>
+                    <td>${b.date || ""} ${b.time || ""}</td>
+                    <td>
+                        <span class="status ${b.status}">
+                            ${b.status}
+                        </span>
+                    </td>
+                    <td>
+                        <button onclick="confirmBooking('${b._id}')">Confirm</button>
+                        <button onclick="cancelBooking('${b._id}')">Cancel</button>
+                    </td>
+                </tr>
+                `;
+            });
+        }
+
+        loadAppointments();
+
+
+        async function confirmBooking(id) {
+
+            await fetch(`http://localhost:4000/api/admin/appointments/${id}/confirm`, {
+                method: "PUT"
+            });
+
+            loadAppointments();
+        }
+
+
+        async function cancelBooking(id) {
+
+            await fetch(`http://localhost:4000/api/admin/appointments/${id}/cancel`, {
+                method: "PUT"
+            });
+
+            loadAppointments();
+        }
+        </script>
 </body>
 </html>

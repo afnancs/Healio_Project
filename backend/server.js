@@ -35,9 +35,9 @@ app.get("/backend-status", (req, res) => {
 
 app.post("/api/auth/register", async (req, res) => {
   try {
-    const { fullName, email, password } = req.body;
+    const { fullName, email, password, location} = req.body;
 
-    if (!fullName || !email || !password) {
+    if (!fullName || !email || !password || !location) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
@@ -46,7 +46,13 @@ app.post("/api/auth/register", async (req, res) => {
       return res.status(400).json({ message: "Email already exists" });
     }
 
-    const user = await User.create({ fullName, email, password });
+    const user = await User.create({
+      fullName,
+      email,
+      password,
+      role: "user",
+      location
+    });
 
     res.status(201).json({
       message: "User created successfully ✅",
@@ -157,6 +163,177 @@ app.get("/api/payments", async (req, res) => {
     res.json(payments);
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
+app.get("/api/admin/stats", async (req, res) => {
+  try {
+
+    const bookings = await Booking.countDocuments();
+    const users = await User.countDocuments();
+    const payments = await Payment.countDocuments();
+
+    res.json({
+      bookings,
+      users,
+      payments
+    });
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.get("/api/admin/appointments", async (req, res) => {
+  try {
+
+    const bookings = await Booking.find().sort({ createdAt: -1 });
+
+    res.json(bookings);
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.put("/api/admin/appointments/:id/confirm", async (req, res) => {
+  try {
+
+    await Booking.findByIdAndUpdate(req.params.id, {
+      status: "confirmed"
+    });
+
+    res.json({ message: "confirmed" });
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.put("/api/admin/appointments/:id/cancel", async (req, res) => {
+  try {
+
+    await Booking.findByIdAndUpdate(req.params.id, {
+      status: "cancelled"
+    });
+
+    res.json({ message: "cancelled" });
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post("/api/auth/login", async (req, res) => {
+  try {
+
+    const { email, password } = req.body;
+
+    const user = await User.findOne({ email, password });
+
+    if (!user) {
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
+
+    res.json({
+      message: "Login successful",
+      role: user.role,
+      user
+    });
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post("/api/auth/login", async (req, res) => {
+  try {
+
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({
+        message: "Email and password are required"
+      });
+    }
+
+    // البحث عن المستخدم
+    const user = await User.findOne({ email, password });
+
+    if (!user) {
+      return res.status(400).json({
+        message: "Invalid email or password"
+      });
+    }
+
+    res.json({
+      message: "Login successful",
+      role: user.role,
+      user: {
+        id: user._id,
+        fullName: user.fullName,
+        email: user.email,
+        role: user.role
+      }
+    });
+
+  } catch (error) {
+
+    res.status(500).json({
+      message: "Server error",
+      error: error.message
+    });
+  }
+});
+
+app.post("/api/auth/login", async (req, res) => {
+  try {
+
+    const { email, password } = req.body;
+
+    // 1) التأكد من البيانات
+    if (!email || !password) {
+      return res.status(400).json({
+        message: "Email and password are required"
+      });
+    }
+
+    // 2) البحث في MongoDB
+    const user = await User.findOne({ email });
+
+    // 3) لو المستخدم مش موجود
+    if (!user) {
+      return res.status(400).json({
+        message: "User not found"
+      });
+    }
+
+    // 4) التأكد من الباسورد
+    if (user.password !== password) {
+      return res.status(400).json({
+        message: "Incorrect password"
+      });
+    }
+
+    // 5) نجاح تسجيل الدخول
+    res.json({
+      message: "Login successful",
+      role: user.role,
+      user: {
+        id: user._id,
+        fullName: user.fullName,
+        email: user.email,
+        location: user.location,
+        role: user.role
+      }
+    });
+
+  } catch (error) {
+
+    res.status(500).json({
+      message: "Server error",
+      error: error.message
+    });
   }
 });
 

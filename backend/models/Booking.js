@@ -2,6 +2,11 @@ const mongoose = require("mongoose");
 
 const bookingSchema = new mongoose.Schema(
   {
+    status: {
+      type: String,
+      default: "pending",
+      enum: ["pending", "confirmed", "cancelled"]
+    },
     patientName: {
       type: String,
       required: true,
