@@ -147,67 +147,121 @@
     </script>
 
     <script>
-        async function loadStats() {
 
-            const res = await fetch("http://localhost:4000/api/admin/stats");
-            const data = await res.json();
+async function loadStats() {
 
-            document.querySelectorAll(".stat-card p")[0].innerText = data.bookings;
-            document.querySelectorAll(".stat-card p")[1].innerText = data.users;
-        }
-        loadStats();
+    try {
 
+        const res = await fetch("http://localhost:4000/api/admin/stats");
+        const data = await res.json();
 
-        async function loadAppointments() {
+        document.querySelectorAll(".stat-card p")[0].innerText = data.bookings || 0;
+        document.querySelectorAll(".stat-card p")[1].innerText = data.users || 0;
+        document.querySelectorAll(".stat-card p")[2].innerText = data.payments || 0;
 
-            const res = await fetch("http://localhost:4000/api/admin/appointments");
-            const data = await res.json();
+    } catch (err) {
 
-            const tbody = document.getElementById("admin-table-body");
-            tbody.innerHTML = "";
+        console.log(err);
+    }
+}
 
-            data.forEach(b => {
+async function loadAppointments() {
 
-                tbody.innerHTML += `
-                <tr>
-                    <td>${b.patientName}</td>
-                    <td>${b.doctorName}</td>
-                    <td>${b.date || ""} ${b.time || ""}</td>
-                    <td>
-                        <span class="status ${b.status}">
-                            ${b.status}
-                        </span>
-                    </td>
-                    <td>
-                        <button onclick="confirmBooking('${b._id}')">Confirm</button>
-                        <button onclick="cancelBooking('${b._id}')">Cancel</button>
-                    </td>
-                </tr>
-                `;
-            });
-        }
+    try {
+
+        const res = await fetch("http://localhost:4000/api/admin/appointments");
+
+        const data = await res.json();
+
+        const tbody = document.getElementById("admin-table-body");
+
+        tbody.innerHTML = "";
+
+        data.forEach((b) => {
+
+            tbody.innerHTML += `
+            <tr>
+                <td>${b.patientName || "N/A"}</td>
+
+                <td>${b.doctorName || "N/A"}</td>
+
+                <td>
+                    ${b.date || ""} - ${b.time || ""}
+                </td>
+
+                <td>
+                    <span class="status ${b.status || "pending"}">
+                        ${b.status || "pending"}
+                    </span>
+                </td>
+
+                <td>
+
+                    <button class="btn btn-approve"
+                        onclick="confirmBooking('${b._id}')">
+                        Confirm
+                    </button>
+
+                    <button class="btn btn-cancel"
+                        onclick="cancelBooking('${b._id}')">
+                        Cancel
+                    </button>
+
+                </td>
+            </tr>
+            `;
+        });
+
+    } catch (err) {
+
+        console.log(err);
+
+        alert("Failed to load appointments");
+    }
+}
+
+async function confirmBooking(id) {
+
+    try {
+
+        await fetch(`http://localhost:4000/api/admin/appointments/${id}/confirm`, {
+            method: "PUT"
+        });
 
         loadAppointments();
 
+    } catch (err) {
 
-        async function confirmBooking(id) {
+        console.log(err);
+    }
+}
 
-            await fetch(`http://localhost:4000/api/admin/appointments/${id}/confirm`, {
-                method: "PUT"
-            });
+async function cancelBooking(id) {
 
-            loadAppointments();
-        }
+    try {
 
+        await fetch(`http://localhost:4000/api/admin/appointments/${id}/cancel`, {
+            method: "PUT"
+        });
 
-        async function cancelBooking(id) {
+        loadAppointments();
 
-            await fetch(`http://localhost:4000/api/admin/appointments/${id}/cancel`, {
-                method: "PUT"
-            });
+    } catch (err) {
 
-            loadAppointments();
-        }
-        </script>
+        console.log(err);
+    }
+}
+
+loadStats();
+loadAppointments();
+
+setInterval(() => {
+
+    loadStats();
+    loadAppointments();
+
+}, 3000);
+
+</script>
 </body>
 </html>

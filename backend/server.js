@@ -85,7 +85,8 @@ app.post("/api/bookings", async (req, res) => {
       doctorName,
       date,
       time,
-      paymentMethod
+      paymentMethod,
+      status: "pending"
     });
 
     res.status(201).json({
@@ -226,29 +227,6 @@ app.put("/api/admin/appointments/:id/cancel", async (req, res) => {
 
 app.post("/api/auth/login", async (req, res) => {
   try {
-
-    const { email, password } = req.body;
-
-    const user = await User.findOne({ email, password });
-
-    if (!user) {
-      return res.status(400).json({ message: "Invalid credentials" });
-    }
-
-    res.json({
-      message: "Login successful",
-      role: user.role,
-      user
-    });
-
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-app.post("/api/auth/login", async (req, res) => {
-  try {
-
     const { email, password } = req.body;
 
     if (!email || !password) {
@@ -257,66 +235,22 @@ app.post("/api/auth/login", async (req, res) => {
       });
     }
 
-    // البحث عن المستخدم
-    const user = await User.findOne({ email, password });
-
-    if (!user) {
-      return res.status(400).json({
-        message: "Invalid email or password"
-      });
-    }
-
-    res.json({
-      message: "Login successful",
-      role: user.role,
-      user: {
-        id: user._id,
-        fullName: user.fullName,
-        email: user.email,
-        role: user.role
-      }
-    });
-
-  } catch (error) {
-
-    res.status(500).json({
-      message: "Server error",
-      error: error.message
-    });
-  }
-});
-
-app.post("/api/auth/login", async (req, res) => {
-  try {
-
-    const { email, password } = req.body;
-
-    // 1) التأكد من البيانات
-    if (!email || !password) {
-      return res.status(400).json({
-        message: "Email and password are required"
-      });
-    }
-
-    // 2) البحث في MongoDB
     const user = await User.findOne({ email });
 
-    // 3) لو المستخدم مش موجود
     if (!user) {
       return res.status(400).json({
         message: "User not found"
       });
     }
 
-    // 4) التأكد من الباسورد
+    // ❌ هنا أهم تعديل: منع الدخول لو الباسورد غلط
     if (user.password !== password) {
       return res.status(400).json({
         message: "Incorrect password"
       });
     }
 
-    // 5) نجاح تسجيل الدخول
-    res.json({
+    return res.json({
       message: "Login successful",
       role: user.role,
       user: {
@@ -329,13 +263,14 @@ app.post("/api/auth/login", async (req, res) => {
     });
 
   } catch (error) {
-
-    res.status(500).json({
+    return res.status(500).json({
       message: "Server error",
       error: error.message
     });
   }
 });
+
+
 
 const PORT = process.env.PORT || 4000;
 

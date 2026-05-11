@@ -27,32 +27,81 @@
     </div>
 
     <script>
-        window.onload = function() {
-            document.getElementById('sum-doc').innerText = localStorage.getItem('docName') || '';
-            document.getElementById('sum-date').innerText = localStorage.getItem('bookedDay') || '';
-            document.getElementById('sum-time').innerText = localStorage.getItem('bookedTime') || '';
-        };
+window.onload = function() {
 
-        function goToPayment() {
-            const patient = document.getElementById('p-name').value.trim();
+    document.getElementById('sum-doc').innerText =
+        localStorage.getItem('docName') || '';
 
-            if (patient === "") {
-                alert("Please enter your name");
-                return;
-            }
+    document.getElementById('sum-date').innerText =
+        localStorage.getItem('bookedDay') || '';
 
-            localStorage.setItem('patientName', patient);
+    document.getElementById('sum-time').innerText =
+        localStorage.getItem('bookedTime') || '';
+};
 
-            localStorage.setItem('pendingBooking', JSON.stringify({
-                patientName: patient,
-                doctorName: localStorage.getItem('docName') || '',
-                doctorSpecialty: localStorage.getItem('docSpecialty') || '',
-                date: localStorage.getItem('bookedDay') || '',
-                time: localStorage.getItem('bookedTime') || ''
-            }));
+async function goToPayment() {
 
-            window.location.href = 'payment.html';
+    const patient = document.getElementById('p-name').value.trim();
+
+    if (patient === "") {
+
+        alert("Please enter your name");
+        return;
+    }
+
+    const bookingData = {
+
+        patientName: patient,
+
+        doctorName: localStorage.getItem('docName') || '',
+
+        date: localStorage.getItem('bookedDay') || '',
+
+        time: localStorage.getItem('bookedTime') || '',
+
+        paymentMethod: "card"
+    };
+
+    try {
+
+        // ✅ إرسال الحجز للباك
+        const res = await fetch("http://localhost:4000/api/bookings", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify(bookingData)
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+
+            alert(data.message || "Booking failed");
+            return;
         }
-    </script>
+
+        // تخزين مؤقت للدفع
+        localStorage.setItem(
+            'pendingBooking',
+            JSON.stringify(bookingData)
+        );
+
+        alert("Booking created successfully ✅");
+
+        // تحويل لصفحة الدفع
+        window.location.href = 'payment.html';
+
+    } catch (err) {
+
+        console.log(err);
+
+        alert("Server error");
+    }
+}
+</script>
 </body>
 </html>
