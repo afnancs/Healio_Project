@@ -2,27 +2,51 @@ const mongoose = require("mongoose");
 
 const paymentSchema = new mongoose.Schema(
   {
-    patientName: {
+    // اسم صاحب الكارت / المستخدم
+    cardholderName: {
       type: String,
       required: true,
       trim: true
     },
+
+    // اسم الدكتور
     doctorName: {
       type: String,
       required: true,
       trim: true
     },
+
+    // مبلغ الدفع
     amount: {
       type: Number,
-      default: 0
+      required: true,
+      min: 1
     },
-    method: {
+
+    // طريقة الدفع
+    paymentMethod: {
+      type: String,
+      required: true,
+      enum: ["Visa", "PayPal"]
+    },
+
+    // رقم الكارت (يفضل يتخزن masked فقط)
+    cardNumber: {
       type: String,
       required: true
     },
+
+    // تاريخ الانتهاء
+    expiryDate: {
+      type: String,
+      required: true
+    },
+
+    // حالة الدفع
     status: {
       type: String,
-      default: "paid"
+      default: "paid",
+      enum: ["paid", "pending", "failed"]
     }
   },
   {

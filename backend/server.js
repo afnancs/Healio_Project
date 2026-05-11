@@ -102,26 +102,52 @@ app.get("/api/bookings", async (req, res) => {
 
 app.post("/api/payments", async (req, res) => {
   try {
-    const { patientName, doctorName, amount, method, status } = req.body;
 
-    if (!patientName || !doctorName || !method) {
-      return res.status(400).json({ message: "Missing payment data" });
+    const {
+      cardholderName,
+      doctorName,
+      amount,
+      paymentMethod,
+      cardNumber,
+      expiryDate
+    } = req.body;
+
+    if (
+      !cardholderName ||
+      !doctorName ||
+      !amount ||
+      !paymentMethod ||
+      !cardNumber ||
+      !expiryDate
+    ) {
+      return res.status(400).json({
+        message: "Missing payment data"
+      });
     }
 
     const payment = await Payment.create({
-      patientName,
+      cardholderName,
       doctorName,
       amount,
-      method,
-      status
+      paymentMethod,
+      cardNumber,
+      expiryDate,
+      status: "paid"
     });
 
     res.status(201).json({
       message: "Payment saved successfully ✅",
       payment
     });
+
   } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
+
+    console.log(error);
+
+    res.status(500).json({
+      message: "Server error",
+      error: error.message
+    });
   }
 });
 
