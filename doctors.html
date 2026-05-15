@@ -1,9 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" href="style.css">
     <title>All Doctors</title>
     <style>
 
@@ -47,6 +47,24 @@
     </style>
 </head>
 <body>
+    <nav class="navbar">
+        <div class="logo-container" style="display: flex; align-items: center; gap: 15px; cursor: pointer; text-decoration: none;" onclick="window.location.href='index.html'">
+    <img src="assets/healio_logo.png" alt="Healio Logo" style="width: 120px; height: auto;">
+    
+    <h1 style="color: #20b2aa; font-size: 30px; font-weight: bold; margin: 0; line-height: 1;">Healio</h1>
+</div>
+
+        <ul class="nav-links">
+            <li><a href="index.html" class="active">HOME</a></li>
+            <li><a href="doctors.html">ALL DOCTORS</a></li>
+            <li><a href="about.html">ABOUT</a></li>
+            <li><a href="contact.html">CONTACT</a></li>
+        </ul>
+        <button type="button" class="btn-signup" onclick="window.location.href='create account.html'" 
+    style="background-color: #20b2aa; color: white; padding: 10px 25px; border: none; border-radius: 50px; cursor: pointer; font-weight: 500; transition: 0.3s;">
+    Create Account
+</button>
+    </nav>
      
     <div style="padding: 20px 8% 0 8%;">
         <h2 style="font-weight: 400; color: #4b5563;">Browse through the doctors specialist.</h2>
@@ -87,7 +105,6 @@
             { name: "Dr. Christopher Kelly", spec: "Gastroenterologist", img: "doc7.png" },
             { name: "Dr. Timothy White", spec: "Gastroenterologist", img: "doc8.png" },
             { name: "Dr. Chloe Evans", spec: "Gastroenterologist", img: "doc9.png" },
-            { name: "Dr. Ryan Dixon", spec: "Cardiology", img: "doc10.png" }, // تكملة الـ 21
             { name: "Dr. Olivia Brown", spec: "Gynecologist", img: "image (9).png" },
             { name: "Dr. Maria Sharapova", spec: "General physician", img: "doc15.png" }
         ];

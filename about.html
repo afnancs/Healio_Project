@@ -3,9 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>About</title>
 </head>
 <body>
+    <nav class="navbar">
+        <div class="logo-container" style="display: flex; align-items: center; gap: 15px; cursor: pointer; text-decoration: none;" onclick="window.location.href='index.html'">
+    <img src="assets/healio_logo.png" alt="Healio Logo" style="width: 120px; height: auto;">
+    
+    <h1 style="color: #20b2aa; font-size: 30px; font-weight: bold; margin: 0; line-height: 1;">Healio</h1>
+</div>
+
+        <ul class="nav-links">
+            <li><a href="index.html" class="active">HOME</a></li>
+            <li><a href="doctors.html">ALL DOCTORS</a></li>
+            <li><a href="about.html">ABOUT</a></li>
+            <li><a href="contact.html">CONTACT</a></li>
+        </ul>
+        <button type="button" class="btn-signup" onclick="window.location.href='create account.html'" 
+    style="background-color: #20b2aa; color: white; padding: 10px 25px; border: none; border-radius: 50px; cursor: pointer; font-weight: 500; transition: 0.3s;">
+    Create Account
+</button>
+    </nav>
     
 </body>
 </html>
@@ -13,25 +32,58 @@
     <div class="about-img">
         <img src="assets/about_image.png" style="width: 350px; border-radius: 15px; background: var(--primary-color);">
     </div>
+    <div class="about-content" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #444;">
+    <h2 style="font-size: 32px; font-weight: bold; margin-bottom: 20px;">
+        ABOUT <span style="color: #5bb1b1;">US</span>
+    </h2>
     
-    <div class="about-text" style="flex: 1;">
-        <h2 style="font-size: 2rem; margin-bottom: 20px;">ABOUT <span style="color: var(--primary-color);">US</span></h2>
-        <p style="color: #666; line-height: 1.6; margin-bottom: 15px;">
-            Welcome to Clinic, your trusted partner in managing your healthcare needs conveniently and efficiently.
-        </p>
-        <b style="color: #333;">Our Vision</b>
-        <p style="color: #666; line-height: 1.6; margin-top: 10px;">
-            Our vision at Clinic is to create a seamless healthcare experience for every user.
-        </p>
-    </div>
+    <p style="font-size: 18px; line-height: 1.8; margin-bottom: 25px; text-align: justify;">
+        <!-- قسم About Us الجديد -->
+  Welcome to <b>Healio</b>, your smart destination for modern healthcare management. 
+  We created this platform to solve the most common problems patients face: finding the right specialty, 
+  knowing the cost upfront, and picking a suitable time. Our website allows you to explore a 
+  comprehensive list of certified doctors across various fields, compare their services, 
+  and choose what fits your specific budget and schedule.
+    </p>
+
+    <p style="font-size: 18px; line-height: 1.8; margin-bottom: 25px; text-align: justify;">
+    We are committed to providing a healthcare experience that respects your time and choices. By integrating advanced technology, we ensure you can focus on what matters most:your health and well-being. 
+    </p>
+
+    <h3 style="font-size: 24px; font-weight: bold; margin-top: 30px; margin-bottom: 15px;">Our Vision</h3>
+    <p style="font-size: 18px; line-height: 1.8; margin-bottom: 40px; text-align: justify;">
+    Our vision is simple: providing healthcare that fits your budget and your schedule. 
+    We want to make sure that every patient can find the right doctor at a price they 
+    can afford and a time that works for them.
+    </p>
+</div>
 </section>
 
 <section class="why-us" style="padding: 40px 8%;">
-    <h3>WHY <span style="font-weight: bold;">CHOOSE US</span></h3>
-    <div class="features-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 20px;">
-        <div class="feature-card" style="border: 1px solid #eee; padding: 40px; transition: 0.3s; cursor: pointer;">
-            <b>EFFICIENCY:</b>
-            <p style="font-size: 14px; color: #777; margin-top: 10px;">Streamlined appointment scheduling that fits into your busy lifestyle.</p>
+        <h3 style="font-weight: bold; margin-bottom: 20px;">WHY <span style="color: var(--primary-color);">CHOOSE US</span></h3>
+        
+        <div class="features-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+            
+            <div class="feature-card" style="border: 1px solid #eee; padding: 40px; transition: 0.3s; cursor: pointer;">
+                <b style="color: #333;">SPECIALIZED EXPERTISE:</b>
+                <p style="font-size: 14px; color: #777; margin-top: 10px;">
+                  Browse through a wide range of medical specialties and find exactly the doctor you need for your condition.
+                </p>
+            </div>
+
+            <div class="feature-card" style="border: 1px solid #eee; padding: 40px; transition: 0.3s; cursor: pointer;">
+                <b style="color: #333;">PRICE TRANSPARENCY:</b>
+                <p style="font-size: 14px; color: #777; margin-top: 10px;">
+                   Compare different doctors and choose the service that fits your budget perfectly with clear pricing. 
+                </p>
+            </div>
+
+            <div class="feature-card" style="border: 1px solid #eee; padding: 40px; transition: 0.3s; cursor: pointer;">
+                <b style="color: #333;">FLEXIBLE SCHEDULING:</b>
+                <p style="font-size: 14px; color: #777; margin-top: 10px;">
+                  Pick the specific date and time that works best for your busy schedule with our easy booking system.
+                </p>
+            </div>
+
         </div>
-        </div>
-</section>
+    </section>
