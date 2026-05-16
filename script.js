@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+/*<<<<<<< HEAD
 const currentPath = window.location.pathname.split('/').pop() || 'index.html';
 const navLinks = document.querySelectorAll('.nav-links a');
 
@@ -32,8 +32,7 @@ function bookDoctor(name, specialty, img) {
   window.location.href = 'doctor-details.html';
 }
 
-window.bookDoctor = bookDoctor;
-=======
+window.bookDoctor = bookDoctor; */
 // 1. تحديد اللينك النشط بناءً على الصفحة الحالية
 const currentPath = window.location.pathname;
 const navLinks = document.querySelectorAll('.nav-links a');
@@ -130,4 +129,4 @@ if (userRole === 'admin') {
     window.location.href = 'index.html';
 }
 
->>>>>>> 9b7313b96397990d8824747f801e520de346a02f
+
